@@ -3,7 +3,7 @@
 
 **Toaster** is a jQuery plugin for displaying toast notifications. It comes with a sublime set of defaults that you can use out of the box, while at the same time remains completely flexible; bending to meet your specific design needs.
 
->Toaster includes a polyfill for [`Array.indexOf`](http://kangax.github.io/compat-table/es5/#Array.prototype.indexOf) to support older browsers (lte IE8).
+>Toaster includes a [polyfill](http://en.wikipedia.org/wiki/Polyfill) for [`Array.indexOf`](http://kangax.github.io/compat-table/es5/#Array.prototype.indexOf) to support older browsers (lte IE8).
 
 ### What Is This Toast You Speak Of? ###
 
