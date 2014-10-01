@@ -74,7 +74,7 @@ The settings object allows you to change everything about the plugin. Let's take
 
 ```javascript
 {
-	'toaster'   :
+	'toaster'         :
 	{
 		'id'        : 'toaster',
 		'container' : 'body',
@@ -89,8 +89,8 @@ The settings object allows you to change everything about the plugin. Let's take
 			'zIndex'   : 50000
 		}
 	},
-
-	'toast'     :
+	
+	'toast'       :
 	{
 		'template' :
 		'<div class="alert alert-%priority% alert-dismissible" role="alert">' +
@@ -100,32 +100,35 @@ The settings object allows you to change everything about the plugin. Let's take
 			'</button>' +
 			'<span class="title"></span>: <span class="message"></span>' +
 		'</div>',
-
+	
 		'css'      : {},
 		'cssm'     : {},
 		'csst'     : { 'fontWeight' : 'bold' },
-
+	
 		'fade'     : 'slow',
-
-		display    : function ($toast)
+	
+		'display'    : function ($toast)
 		{
 			return $toast.fadeIn(settings.toast.fade);
 		},
-
-		remove     : function ($toast, callback)
+	
+		'remove'     : function ($toast, callback)
 		{
 			return $toast.animate(
-			{
-				opacity: '0',
-				height: '0px'
-			},
-			{
-				duration: settings.toast.fade,
-				complete: callback
-			});
+				{
+					opacity : '0',
+					padding : '0px',
+					margin  : '0px',
+					height  : '0px'
+				},
+				{
+					duration : settings.toast.fade,
+					complete : callback
+				}
+			);
 		}
 	},
-
+	
 	'debug'        : false,
 	'timeout'      : 1500,
 	'stylesheet'   : null,
