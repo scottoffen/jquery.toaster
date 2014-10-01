@@ -44,7 +44,7 @@ In this fashion, Toaster messages will automatically match the Bootstrap theme y
 
 ### How It Works ###
 
-Simply put, auto-dismissing alerts are added to a `div` element designed to hold them. This 'toast holder' element - referred to as the 'toaster' - will be created if it doesn't already exist, so you really don't need to do anything to use this out of the box.
+Simply put, auto-dismissing alerts are added to a `div` element designed to hold them. This 'toast holder' element - referred to as the '[toaster](http://www.amazon.com/s/ref=nb_sb_noss_1?url=search-alias%3Daps&field-keywords=toaster&sprefix=toaste%2Caps "Amazon has an impressive selection of them!")' - will be created if it doesn't already exist, so you really don't need to do *anything* to use Toaster out of the box.
 
 >If the defaults work for you, great! You don't need to read any further than this. Live as long as is expedient and may your prosperity be equivalent to the effort you invest and the value of your output.
 
@@ -60,9 +60,9 @@ To customize the settings, pass a `settings` object with your desired changes.
 $.toaster({ settings : {...} });
 ```
 
-Only what is defined in the object you send will override the default settings, all other settings will remain untouched. The settings are applied before any message that may have been passed at the same time is created and displayed.
+Only what is defined in the object you send will override the default settings, all other settings will remain untouched. The settings are applied before any message (that may have been passed at the same time) is created and displayed.
 
-To clear all changes made and revert to the default settings, simply call reset:
+To clear all changes made and revert to the default settings:
 
 ```javascript
 $.toaster.reset();
@@ -102,19 +102,19 @@ The settings object allows you to change everything about the plugin. Let's take
 		'</div>',
 
 		'css'      : {},
-		'cssMsg'   : {},
-		'cssTitle' : { 'fontWeight' : 'bold' },
+		'cssm'     : {},
+		'csst'     : { 'fontWeight' : 'bold' },
 
 		'fade'     : 'slow',
 
-		display    : function (toast)
+		display    : function ($toast)
 		{
-			return toast.fadeIn(settings.toast.fade);
+			return $toast.fadeIn(settings.toast.fade);
 		},
 
-		remove     : function (toast, callback)
+		remove     : function ($toast, callback)
 		{
-			return toast.animate(
+			return $toast.animate(
 			{
 				opacity: '0',
 				height: '0px'
@@ -137,16 +137,16 @@ The properties of the settings object are:
 
 | Property     | Default | Description |
 | ------------ | ------- | ----------- |
-| toaster      | object  | see toaster |
-| toast        | object  | see toast   |
-| debug        | false   | A boolean (or truthy/falsey) value to indicate that debuging mode is on/off. If it is on, then the notification element is written out to `console.log` prior to being added to the DOM so it can be inspected. |
+| toaster      | object  | see [toaster](#toaster) |
+| toast        | object  | see [toast](#toast)   |
+| debug        | false   | A boolean (or truthy/falsey) value to indicate that debuging mode is on/off. If it is on (true/truthy), then the notification element is written out to `console.log` prior to being added to the DOM so it can be inspected. |
 | timeout      | 1500    | An integer, the number of milliseconds to wait before calling the `settings.toast.remove` method. |
-| stylesheet   | null    | A path to a stylesheet that should be included whenever this plugin is used. You can hardcode a value here if you'd rather not hassle with a call to settings. If the stylesheet referenced is not found on the page, it will be added. |
-| donotdismiss | array   | This is expected to be an array of [priorities](#Priorities) that should not be auto-dismissed, empty by default. Any notification with a priority in this array will not have the `settings.toast.remove` method called on it after the `settings.timeout` amount of time, and will need to be manually dismissed. |
+| stylesheet   | null    | A path to a stylesheet that should be included whenever this plugin is used. You can hardcode a value here if you'd prefer. If the stylesheet referenced is not found on the page, it will be added. |
+| donotdismiss | array   | This is expected to be an array of [priorities](#priorities) that should not be auto-dismissed, empty by default. Any notification with a priority in this array will not have the `settings.toast.remove` method called on it after the `settings.timeout` amount of time, and will need to be manually dismissed. |
 
 #### toaster ####
 
-The toaster is where all toast notifications will appear. This section of the settings allows us to identify and/or configure the dock.
+The toaster is where all toast notifications will appear. This section of the settings allows us to identify and/or configure the toaster.
 
 | Property  | Default       | Description |
 | --------- | ------------- | ----------- |
@@ -158,19 +158,19 @@ The toaster is where all toast notifications will appear. This section of the se
 
 #### toast ####
 
-The toast is the template that will be used to create all toaster notifications. This section is used to define that template and its relevant attributes.
+The toast is the notification template that will be used to create all toaster notifications. This section is used to define that template and its relevant attributes.
 
 | Property | Default  | Description |
 | -------- | -------- | ----------- |
-| template | [alert](http://getbootstrap.com/components/#alerts-dismissible) | The html template (as a string) that will be used to create each notification. It can (and should) contain placeholders for `%priority%`, and there should be elements with the classes `title` and `message`, as these will be used to put the text for the title and message properties in the call to `$.toaster`. |
+| template | [alert](http://getbootstrap.com/components/#alerts-dismissible) | The html template (as a string) that will be used to create each notification. It can (and should) contain placeholders for the priority (using `%priority%`), and there should be elements with the classes `title` and `message`, as these will be used to put the text for the title and message property values. |
 | css      | object   | Style attributes to be applied to each toast generated. |
 | cssm     | object   | Style attributes to be applied to each element with the class `message`. |
 | csst     | object   | Style attributes to be applied to each element with the class `title`. |
-| fade     | slow     | Defines the duration for the fade in/out effect on the notification. |
-| display  | function | Callback to handle the initial display of the notification element. |
-| remove   | function | Callback to handle the remove of the notification element. |
+| fade     | slow     | Defines the duration for the fade in/out effect on the toast notification. |
+| display  | function | Callback to handle the initial display of the toast notification element. |
+| remove   | function | Callback to handle the remove of the toast notification element. |
 
-Note that `fade` is only used by the default `settings.toast.display` and `settings.toast.remove` callback functions. If you wanted to have toast elements fade in at different speeds than they fade out, you can use this modification:
+Note that `settings.toast.fade` is only used by the default `settings.toast.display` and `settings.toast.remove` callback functions. If you wanted to have toast elements fade in at different speeds than they fade out, you can use this modification:
 
 ```javascript
 $.toaster({ settings :
@@ -179,14 +179,14 @@ $.toaster({ settings :
 	{
 		fade : [ in : 'fast', out : 'slow' ],
 
-		display : function (toast)
+		display : function ($toast)
 		{
-			return toast.fadeIn(settings.toast.fade.in);
+			return $toast.fadeIn(settings.toast.fade.in);
 		},
 
-		remove : function (toast, callback)
+		remove : function ($toast, callback)
 		{
-			return toast.animate(
+			return $toast.animate(
 			{
 				opacity: '0',
 				height: '0px'
@@ -223,7 +223,7 @@ $.toaster({ settings :
 }});
 ```
 
-Remember that you have complete access to the `settings` object inside these callback methods, so if you want to key of another value - either a documented one like `settings.debug` or a custom one of your own creation - you can do that!
+Remember that you have complete access to the `settings` object inside these callback methods, so if you want to key off of another value - either a documented one like `settings.debug` or a custom one of your own creation - you can do that!
 
 >In all cases, note that the `settings.toast.remove` callback should take a callback method as the second argument, and don't forget to call it!
 
@@ -231,3 +231,5 @@ Remember that you have complete access to the `settings` object inside these cal
 ### Variable Timeouts ###
 
 If you want notifications of different priorities to expire at different intervals, you'll be happy to know that the `settings.timeout` property can also be an object! In that case, the key should be the priority and the value the number of milliseconds to wait before auto-dismissing the notification.
+
+Any priority without a key-value pair will default to a 1500 millisecond timeout.
