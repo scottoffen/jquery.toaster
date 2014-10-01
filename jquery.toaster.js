@@ -52,27 +52,27 @@
 
 		notify : function (title, message, priority)
 		{
-			var toaster = this.gettoaster();
-			var toast  = $(settings.toast.template.replace('%priority%', priority)).hide().css(settings.toast.css).addClass(settings.toast['class']);
+			var $toaster = this.gettoaster();
+			var $toast  = $(settings.toast.template.replace('%priority%', priority)).hide().css(settings.toast.css).addClass(settings.toast['class']);
 
-			$('.title', toast).css(settings.toast.csst).html(title);
-			$('.message', toast).css(settings.toast.cssm).html(message);
+			$('.title', $toast).css(settings.toast.csst).html(title);
+			$('.message', $toast).css(settings.toast.cssm).html(message);
 
 			if ((settings.debug) && (window.console))
 			{
 				console.log(toast);
 			}
 
-			toaster.append(settings.toast.display(toast));
+			$toaster.append(settings.toast.display($toast));
 
 			if (settings.donotdismiss.indexOf(priority) === -1)
 			{
 				var timeout = (typeof settings.timeout === 'number') ? settings.timeout : ((typeof settings.timeout === 'object') && (priority in settings.timeout)) ? settings.timeout[priority] : 1500;
 				setTimeout(function()
 				{
-					settings.toast.remove(toast, function()
+					settings.toast.remove($toast, function()
 					{
-						toast.remove();
+						$toast.remove();
 					});
 				}, timeout);
 			}
@@ -114,14 +114,25 @@
 
 			'fade'     : 'slow',
 
-			display    : function (toast)
+			'display'    : function ($toast)
 			{
-				return toast.fadeIn(settings.toast.fade);
+				return $toast.fadeIn(settings.toast.fade);
 			},
 
-			remove     : function (toast, callback)
+			'remove'     : function ($toast, callback)
 			{
-				return toast.animate({opacity: '0', height: '0px'}, {duration: settings.toast.fade, complete: callback });
+				return $toast.animate(
+					{
+						opacity : '0',
+						padding : '0px',
+						margin  : '0px',
+						height  : '0px'
+					},
+					{
+						duration : settings.toast.fade,
+						complete : callback
+					}
+				);
 			}
 		},
 
