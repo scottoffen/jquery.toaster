@@ -29,63 +29,64 @@
 
 (function ($,undefined)
 {
-	var bark =
+	var toasting =
 	{
-		getcontainer : function ()
+		gettoaster : function ()
 		{
-			var container = $('#' + settings.dock.id);
+			var toaster = $('#' + settings.toaster.id);
 
-			if(container.length < 1)
+			if(toaster.length < 1)
 			{
-				container = $(settings.dock.template).attr('id', settings.dock.id).css(settings.dock.css).addClass(settings.dock['class']);
+				toaster = $(settings.toaster.template).attr('id', settings.toaster.id).css(settings.toaster.css).addClass(settings.toaster['class']);
 
 				if ((settings.stylesheet) && (!$("link[href=" + settings.stylesheet + "]").length))
 				{
 					$('head').appendTo('<link rel="stylesheet" href="' + settings.stylesheet + '">');
 				}
 
-				$(settings.dock.container).append(container);
+				$(settings.toaster.container).append(toaster);
 			}
 
-			return container;
+			return toaster;
 		},
 
 		notify : function (title, message, priority)
 		{
-			var container = this.getcontainer();
-			var notice   = $(settings.notice.template.replace('%priority%', priority)).hide().css(settings.notice.css).addClass(settings.notice['class']);
+			var toaster = this.gettoaster();
+			var toast  = $(settings.toast.template.replace('%priority%', priority)).hide().css(settings.toast.css).addClass(settings.toast['class']);
 
-			$('.title', notice).css(settings.notice.cssTitle).html(title);
-			$('.message', notice).css(settings.notice.cssMsg).html(message);
+			$('.title', toast).css(settings.toast.csst).html(title);
+			$('.message', toast).css(settings.toast.cssm).html(message);
 
 			if ((settings.debug) && (window.console))
 			{
-				console.log(notice);
+				console.log(toast);
 			}
 
-			container.append(settings.notice.display(notice));
+			toaster.append(settings.toast.display(toast));
 
-			if ((settings.timeout > 0) && (settings.donotclose.indexOf(priority) === -1))
+			if (settings.donotdismiss.indexOf(priority) === -1)
 			{
+				var timeout = (typeof settings.timeout === 'number') ? settings.timeout : ((typeof settings.timeout === 'object') && (priority in settings.timeout)) ? settings.timeout[priority] : 1500;
 				setTimeout(function()
 				{
-					settings.notice.remove(notice, function()
+					settings.toast.remove(toast, function()
 					{
-						notice.remove();
+						toast.remove();
 					});
-				}, settings.timeout);
+				}, timeout);
 			}
 		}
 	};
 
-	var settings =
+	var defaults =
 	{
-		'dock'       :
+		'toaster'         :
 		{
+			'id'        : 'toaster',
 			'container' : 'body',
 			'template'  : '<div></div>',
-			'id'        : 'barkDock',
-			'class'     : 'bark',
+			'class'     : 'toaster',
 			'css'       :
 			{
 				'position' : 'fixed',
@@ -96,7 +97,7 @@
 			}
 		},
 
-		'notice'     :
+		'toast'       :
 		{
 			'template' :
 			'<div class="alert alert-%priority% alert-dismissible" role="alert">' +
@@ -108,38 +109,36 @@
 			'</div>',
 
 			'css'      : {},
-			'cssMsg'   : {},
-			'cssTitle' : { 'fontWeight' : 'bold' },
+			'cssm'     : {},
+			'csst'     : { 'fontWeight' : 'bold' },
 
 			'fade'     : 'slow',
 
-			display    : function (notice)
+			display    : function (toast)
 			{
-				return notice.fadeIn(settings.notice.fade);
+				return toast.fadeIn(settings.toast.fade);
 			},
 
-			remove     : function (notice, callback)
+			remove     : function (toast, callback)
 			{
-				return notice.animate({opacity: '0', height: '0px'}, {duration: settings.notice.fade, complete: callback });
-			},
-
-			element    : function (el)
-			{
-				settings.notice.template = $(el);
-			},
+				return toast.animate({opacity: '0', height: '0px'}, {duration: settings.toast.fade, complete: callback });
+			}
 		},
 
-		'debug'      : false,
-		'timeout'    : 1500,
-		'stylesheet' : null,
-		'donotclose' : []
+		'debug'        : false,
+		'timeout'      : 1500,
+		'stylesheet'   : null,
+		'donotdismiss' : []
 	};
 
-	$.bark = function (options)
+	var settings = {};
+	$.extend(settings, defaults);
+
+	$.toaster = function (options)
 	{
-		if(typeof options === 'object')
+		if (typeof options === 'object')
 		{
-			if('settings' in options)
+			if ('settings' in options)
 			{
 				settings = $.extend(settings, options.settings);
 			}
@@ -148,10 +147,16 @@
 			var message  = ('message' in options) ? options.message : null;
 			var priority = ('priority' in options) ? options.priority : 'success';
 
-			if(message !== null)
+			if (message !== null)
 			{
-				bark.notify(title, message, priority);
+				toasting.notify(title, message, priority);
 			}
 		}
+	};
+
+	$.toaster.reset = function ()
+	{
+		settings = {};
+		$.extend(settings, defaults);
 	};
 })(jQuery);
