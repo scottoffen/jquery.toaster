@@ -162,6 +162,14 @@
 			{
 				toasting.notify(title, message, priority);
 			}
+		} else if (typeof options === "string") {
+		    var title = 'Notice';
+		    var message = options;
+		    var priority = 'success';
+
+		    if (message !== null) {
+		        toasting.notify(title, message, priority);
+		    }
 		}
 	};
 
