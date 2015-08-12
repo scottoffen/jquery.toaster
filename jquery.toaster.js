@@ -108,6 +108,12 @@
 				'<span class="title"></span>: <span class="message"></span>' +
 			'</div>',
 
+			'defaults' :
+			{
+				'title'    : 'Notice',
+				'priority' : 'success'
+			},
+
 			'css'      : {},
 			'cssm'     : {},
 			'csst'     : { 'fontWeight' : 'bold' },
@@ -166,9 +172,9 @@
 			}
 		}
 
-		var title    = ('title' in options) ? options.title : 'Notice';
+		var title    = (('title' in options) && (typeof options.title === 'string')) ? options.title : settings.toast.defaults.title;
 		var message  = ('message' in options) ? options.message : null;
-		var priority = ('priority' in options) ? options.priority : 'success';
+		var priority = (('priority' in options) && (typeof options.priority === 'string')) ? options.priority : settings.toast.defaults.priority;
 
 		if (message !== null)
 		{
