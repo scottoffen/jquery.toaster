@@ -180,7 +180,7 @@ $.toaster({ settings :
 {
 	toast :
 	{
-		fade : [ in : 'fast', out : 'slow' ],
+		fade : { in : 'fast', out : 'slow' },
 
 		display : function ($toast)
 		{
@@ -210,8 +210,8 @@ $.toaster({ settings :
 {
 	toast :
 	{
-		fade : [ in : 'fast', out : 'slow' ],
-		easing : [ in : 'swing', out : 'linear' ],
+		fade : { in : 'fast', out : 'slow' },
+		easing : { in : 'swing', out : 'linear' },
 
 		display : function ($toast)
 		{
