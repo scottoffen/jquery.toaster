@@ -19,16 +19,18 @@ Include the `jquery.toaster.js` JavaScript file on your HTML page after referenc
 
 ```javascript
 /*
-* Specify each parameter...
+* Pass an parameters as an object
 */
-$.toaster({ title : 'Success', priority : 'success', message : 'Whatever you did worked!' });
-$.toaster({ title : 'Bad News', priority : 'danger', message : 'Whatever you did failed!' });
+$.toaster({ message : 'Your message here' });
+$.toaster({ message : 'Your message here', title : 'Your Title' });
+$.toaster({ message : 'Your message here', title : 'Your Title', priority : 'danger' });
 
 /*
-* ...or pass only a string; it will be treated as the intended message,
-* and 'priority' will default to 'success', and 'title' to 'Notice'.
+* Pass parameters as ordered strings
 */
-$.toaster('Whatever you did worked!');
+$.toaster('Your message here');
+$.toaster('Your message here', 'Your Title');
+$.toaster('Your message here', 'Your Title', 'danger');
 ```
 
 ### Priorities ###
@@ -61,6 +63,8 @@ $.toaster({ settings : {...} });
 ```
 
 Only what is defined in the object you send will override the default settings, all other settings will remain untouched. The settings are applied before any message (that may have been passed at the same time) is created and displayed.
+
+> This only needs to be done once. Thereafter, toaster will use the settings you have provided until you change them again or reset them.
 
 To clear all changes made and revert to the default settings:
 
