@@ -151,17 +151,28 @@
 		{
 			if ('settings' in options)
 			{
-				settings = $.extend(settings, options.settings);
+				settings = $.extend(true, settings, options.settings);
 			}
+		}
+		else
+		{
+			var values = Array.prototype.slice.call(arguments, 0);
+			var labels = ['message', 'title', 'priority'];
+			options = {};
 
-			var title    = ('title' in options) ? options.title : 'Notice';
-			var message  = ('message' in options) ? options.message : null;
-			var priority = ('priority' in options) ? options.priority : 'success';
-
-			if (message !== null)
+			for (var i = 0, l = values.length; i < l; i += 1)
 			{
-				toasting.notify(title, message, priority);
+				options[labels[i]] = values[i];
 			}
+		}
+
+		var title    = ('title' in options) ? options.title : 'Notice';
+		var message  = ('message' in options) ? options.message : null;
+		var priority = ('priority' in options) ? options.priority : 'success';
+
+		if (message !== null)
+		{
+			toasting.notify(title, message, priority);
 		}
 	};
 
