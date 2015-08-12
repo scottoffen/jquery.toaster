@@ -39,7 +39,8 @@
 							<form id="preptoast" role="form" class="form-inline">
 								<div class="form-group">
 									<label class="sr-only" for="toastPriority">Toast Priority</label>
-									<select class="form-control" id="toastPriority">
+									<select class="form-control" id="toastPriority" placeholder="Priority">
+										<option>&lt;use default&gt;</option>
 										<option value="success">success</option>
 										<option value="info">info</option>
 										<option value="warning">warning</option>
@@ -78,6 +79,7 @@
 		<script src="./jquery.toaster.js"></script>
 		<script>
 			var interval;
+			var codetmpl = "<code>%codeobj%</code><br><code>%codestr%</code>";
 
 			$(document).ready(function ()
 			{
@@ -88,9 +90,6 @@
 				$('#preptoast').on('submit', maketoast);
 
 				start();
-
-				$.toaster("Hello World", "My Title", "danger");
-
 			});
 
 			function start ()
@@ -128,18 +127,46 @@
 			{
 				evt.preventDefault();
 
-				var priority = $('#toastPriority').val();
-				var title    = $('#toastTitle').val() || 'Notice';
-				var message  = $('#toastMessage').val() || 'Your message here';
+				var options =
+				{
+					priority : $('#toastPriority').val() || null,
+					title    : $('#toastTitle').val() || null,
+					message  : $('#toastMessage').val() || 'A message is required'
+				};
 
-				var code =  
-				[
-					"$.toaster({ priority : '" + priority + "', title : '" + title + "', message : '" + message + "'});",
-					"$.toaster('" + message + "', '" + title + "', '" + priority + "');"
-				].join("</code><br><code>");
+				if (options.priority === '<use default>')
+				{
+					options.priority = null;
+				}
 
-				$('#toastCode').html("<code>" + code + "</code>");
-				$.toaster({ priority : priority, title : title, message : message });
+				var codeobj = [];
+				var codestr = [];
+
+				var labels = ['message', 'title', 'priority'];
+				for (var i = 0, l = labels.length; i < l; i += 1)
+				{
+					if (options[labels[i]] !== null)
+					{
+						codeobj.push([labels[i], "'" + options[labels[i]] + "'"].join(' : '));
+					}
+
+					codestr.push((options[labels[i]] !== null) ? "'" + options[labels[i]] + "'" : 'null');
+				}
+
+				if (codestr[2] === 'null')
+				{
+					codestr.pop();
+					if (codestr[1] === 'null')
+					{
+						codestr.pop();
+					}
+				}
+
+				codeobj = "$.toaster({ " + codeobj.join(", ") + " });"
+				codestr = "$.toaster(" + codestr.join(", ") + ");"
+
+				$('#toastCode').html(codetmpl.replace('%codeobj%', codeobj).replace('%codestr%', codestr));
+				$.toaster(options);
 			}
 		</script>
 	</body>
