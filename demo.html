@@ -16,75 +16,6 @@
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
-
-		<!--[if !IE]>-->
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<!--<![endif]-->
-
-		<!--[if IE]>
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<![endif]-->
-
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-		<script src="jquery.toaster.js"></script>
-		<script>
-			var running = true;
-			var interval;
-
-			$(document).ready(function ()
-			{
-				randomToast();
-
-				$('#btnstart').click(start);
-				$('#btnstop').click(stop);
-				$('#preptoast').on('submit', maketoast);
-
-				start();
-			});
-
-			function start ()
-			{
-				if (!interval)
-				{
-					interval = setInterval(function ()
-					{
-						randomToast();
-					}, 1500);
-				}
-				this.blur();
-			}
-
-			function stop ()
-			{
-				if (interval)
-				{
-					clearInterval(interval);
-					interval = false;
-				}
-				this.blur();
-			}
-
-			function randomToast ()
-			{
-				var priority = 'success';
-				var title    = 'Success';
-				var message  = 'It worked!';
-
-				$.toaster({ priority : priority, title : title, message : message });
-			}
-
-			function maketoast (evt)
-			{
-				evt.preventDefault();
-
-				var priority = $('#toastPriority').val();
-				var title    = $('#toastTitle').val() || 'Notice';
-				var message  = $('#toastMessage').val() || 'Your message here';
-
-				$('#toastCode').html("$.toaster({ priority : '" + priority + "', title : '" + title + "', message : '" + message + "'});");
-				$.toaster({ priority : priority, title : title, message : message });
-			}
-		</script>
 	</head>
 	<body>
 		<div class="container" role="main">
@@ -129,12 +60,87 @@
 							</form>
 							<br>
 							<p>Code:</p>
-							<code id="toastCode">[no code yet]</code>
+							<div id="toastCode"></div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
+		<!--[if IE]>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<![endif]-->
+
+		<!--[if !IE]>-->
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<!--<![endif]-->
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<script src="./jquery.toaster.js"></script>
+		<script>
+			var interval;
+
+			$(document).ready(function ()
+			{
+				randomToast();
+
+				$('#btnstart').click(start);
+				$('#btnstop').click(stop);
+				$('#preptoast').on('submit', maketoast);
+
+				start();
+
+				$.toaster("Hello World", "My Title", "danger");
+
+			});
+
+			function start ()
+			{
+				if (!interval)
+				{
+					interval = setInterval(function ()
+					{
+						randomToast();
+					}, 1500);
+				}
+				this.blur();
+			}
+
+			function stop ()
+			{
+				if (interval)
+				{
+					clearInterval(interval);
+					interval = false;
+				}
+				this.blur();
+			}
+
+			function randomToast ()
+			{
+				var priority = 'success';
+				var title    = 'Success';
+				var message  = 'It worked!';
+
+				$.toaster({ priority : priority, title : title, message : message });
+			}
+
+			function maketoast (evt)
+			{
+				evt.preventDefault();
+
+				var priority = $('#toastPriority').val();
+				var title    = $('#toastTitle').val() || 'Notice';
+				var message  = $('#toastMessage').val() || 'Your message here';
+
+				var code =  
+				[
+					"$.toaster({ priority : '" + priority + "', title : '" + title + "', message : '" + message + "'});",
+					"$.toaster('" + message + "', '" + title + "', '" + priority + "');"
+				].join("</code><br><code>");
+
+				$('#toastCode').html("<code>" + code + "</code>");
+				$.toaster({ priority : priority, title : title, message : message });
+			}
+		</script>
 	</body>
 </html>
