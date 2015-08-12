@@ -19,14 +19,18 @@ Include the `jquery.toaster.js` JavaScript file on your HTML page after referenc
 
 ```javascript
 /*
-* Pass an parameters as an object
+* Pass an parameters as an object:
+* The only required paramter is message
+* Order does not matter
 */
 $.toaster({ message : 'Your message here' });
 $.toaster({ message : 'Your message here', title : 'Your Title' });
 $.toaster({ message : 'Your message here', title : 'Your Title', priority : 'danger' });
 
 /*
-* Pass parameters as ordered strings
+* Pass parameters as strings:
+* The only required parameter is message
+* Order matters!
 */
 $.toaster('Your message here');
 $.toaster('Your message here', 'Your Title');
