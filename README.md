@@ -1,4 +1,7 @@
 # jQuery Toaster #
+
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/scottoffen/jquery.toaster.svg)](http://isitmaintained.com/project/scottoffen/jquery.toaster "Percentage of issues still open") [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/scottoffen/jquery.toaster.svg)](http://isitmaintained.com/project/scottoffen/jquery.toaster "Average time to resolve an issue")
+
 *Requires [Bootstrap](http://getbootstrap.com/) 3.0+*
 
 **Toaster** is a jQuery plugin for displaying toast notifications. It comes with a sublime set of defaults that you can use out of the box, while at the same time remains completely flexible; bending to meet your specific design needs.
