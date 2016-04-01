@@ -1,0 +1,27 @@
+{
+  "name": "jquery.toaster",
+  "main": "jquery.toaster.js",
+  "homepage": "http://scottoffen.github.io/jquery.toaster",
+  "authors": [
+    "Scott Offen <developer@scottoffen.com>"
+  ],
+  "description": "jQuery plugin for displaying customizable toast notifications via Bootstrap alerts",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "jquery",
+    "toast",
+    "toaster",
+    "bark",
+    "growl"
+  ],
+  "license": "Apache-2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
