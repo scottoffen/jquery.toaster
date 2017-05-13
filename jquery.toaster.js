@@ -61,7 +61,7 @@
 
 			if ((settings.debug) && (window.console))
 			{
-				console.log(toast);
+				console.log($toast);
 			}
 
 			$toaster.append(settings.toast.display($toast));
